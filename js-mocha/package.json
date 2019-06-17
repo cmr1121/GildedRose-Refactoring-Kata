@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "description": "Gilded Rose kata in Javascript with Mocha",
   "scripts": {
-    "test": "mocha --compilers js:babel/register"
+    "test": "mocha './test/**/*.spec.js'"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/emilybache/GildedRose-Refactoring-Kata.git"
+    "url": "git+https://github.com/cmr1121/GildedRose-Refactoring-Kata.git"
   },
   "keywords": [
     "kata",
@@ -17,12 +17,13 @@
   "license": "MIT",
   "private": true,
   "bugs": {
-    "url": "https://github.com/emilybache/GildedRose-Refactoring-Kata/issues"
+    "url": "https://github.com/cmr1121/GildedRose-Refactoring-Kata/issues"
   },
-  "homepage": "https://github.com/emilybache/GildedRose-Refactoring-Kata",
+  "homepage": "https://github.com/cmr1121/GildedRose-Refactoring-Kata",
   "devDependencies": {
     "babel": "^5.8.23",
     "chai": "^4.2.0",
-    "mocha": "^5.2.0"
+    "chai-as-promised": "^7.1.1",
+    "mocha": "^6.1.4"
   }
 }
