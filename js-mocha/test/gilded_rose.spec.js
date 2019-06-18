@@ -48,7 +48,21 @@ describe("Gilded Rose", function () {
       items[0].sellIn.should.equal(0);
       items[0].quality.should.equal(9);
     });
+
+  });
+  describe('Day +2', () => {
+    before(() => {
+      items = [
+        new Item('Crap on Toast', 1, 10),
+      ]
+      gildedRose = new Shop(items);
+    });
+    it('at end of day, the values should adjust', () => {
+      gildedRose.updateQuality();
+      gildedRose.updateQuality();
+      items[0].name.should.equal('Crap on Toast');
+      items[0].sellIn.should.equal(-1);
+      items[0].quality.should.equal(7);
+    });
   });
 });
-
-
