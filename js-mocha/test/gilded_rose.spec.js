@@ -9,6 +9,7 @@ describe("Gilded Rose", function () {
   before(() => {
     items = [
       new Item('Crap on Toast', 1, 3),
+      new Item("Aged Brie", 1, 46),
     ]
     gildedRose = new Shop(items);
   });
@@ -27,7 +28,7 @@ describe("Gilded Rose", function () {
     items[0].should.have.property('quality');
     items[0].should.have.property('quality').that.is.a('number');
   });
-  
+
   describe('Day +1', () => {
     it('before end of day, item(s) should match original values', () => {
       items[0].name.should.equal('Crap on Toast');
@@ -41,6 +42,11 @@ describe("Gilded Rose", function () {
       items[0].quality.should.equal(2);
     });
 
+    it('at end of day, aged brie increases in quality', () => {
+      items[1].name.should.equal('Aged Brie');
+      items[1].sellIn.should.equal(0);
+      items[1].quality.should.equal(47);
+    });
   });
   describe('Day +2', () => {
     it('at end of day, basic item sell by < 0 so quality should reduce by 2', () => {
@@ -49,6 +55,11 @@ describe("Gilded Rose", function () {
       items[0].sellIn.should.equal(-1);
       items[0].quality.should.equal(0);
     });
+    it('at end of day, aged brie sell by < 0 so quality should increase by 2', () => {
+      items[1].name.should.equal('Aged Brie');
+      items[1].sellIn.should.equal(-1);
+      items[1].quality.should.equal(49);
+    });
   });
   describe('Day +3', () => {
     it('at end of day, basic item sell by < 0 so quality should reduce by 2 but can not go negative', () => {
@@ -56,6 +67,11 @@ describe("Gilded Rose", function () {
       items[0].name.should.equal('Crap on Toast');
       items[0].sellIn.should.equal(-2);
       items[0].quality.should.equal(0);
+    });
+    it('at end of day, aged brie < 0 so quality should increase by 2 but not go higher than 50', () => {
+      items[1].name.should.equal('Aged Brie');
+      items[1].sellIn.should.equal(-2);
+      items[1].quality.should.equal(50);
     });
   });
 });
