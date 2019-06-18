@@ -5,9 +5,12 @@ should();
 
 describe("Gilded Rose", function () {
   var gildedRose, items
+
   before(() => {
-    gildedRose = new Shop([new Item("foo", 0, 0)]);
-    items = gildedRose.updateQuality();
+    items = [
+      new Item('Crap on Toast', 1, 3),
+    ]
+    gildedRose = new Shop(items);
   });
 
   it('should have a name value', () => {
@@ -24,45 +27,35 @@ describe("Gilded Rose", function () {
     items[0].should.have.property('quality');
     items[0].should.have.property('quality').that.is.a('number');
   });
-
-  it("should foo", function () {
-    items[0].name.should.equal('foo');
-    //expect(items[0].name).to.equal("fixme");
-  });
-
+  
   describe('Day +1', () => {
-    before(() => {
-      items = [
-        new Item('Crap on Toast', 1, 10),
-      ]
-      gildedRose = new Shop(items);
-    });
     it('before end of day, item(s) should match original values', () => {
       items[0].name.should.equal('Crap on Toast');
       items[0].sellIn.should.equal(1);
-      items[0].quality.should.equal(10);
+      items[0].quality.should.equal(3);
     });
-    it('at end of day, the values should adjust', () => {
+    it('at end of day, basic item sell by >= 0 so quality should reduce by 1', () => {
       gildedRose.updateQuality();
       items[0].name.should.equal('Crap on Toast');
       items[0].sellIn.should.equal(0);
-      items[0].quality.should.equal(9);
+      items[0].quality.should.equal(2);
     });
 
   });
   describe('Day +2', () => {
-    before(() => {
-      items = [
-        new Item('Crap on Toast', 1, 10),
-      ]
-      gildedRose = new Shop(items);
-    });
-    it('at end of day, the values should adjust', () => {
-      gildedRose.updateQuality();
+    it('at end of day, basic item sell by < 0 so quality should reduce by 2', () => {
       gildedRose.updateQuality();
       items[0].name.should.equal('Crap on Toast');
       items[0].sellIn.should.equal(-1);
-      items[0].quality.should.equal(7);
+      items[0].quality.should.equal(0);
+    });
+  });
+  describe('Day +3', () => {
+    it('at end of day, basic item sell by < 0 so quality should reduce by 2 but can not go negative', () => {
+      gildedRose.updateQuality();
+      items[0].name.should.equal('Crap on Toast');
+      items[0].sellIn.should.equal(-2);
+      items[0].quality.should.equal(0);
     });
   });
 });
