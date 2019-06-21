@@ -27,46 +27,78 @@ describe.only('Backstage Passes', () => {
             items[0].quality.should.equal(20);
         });
     });
-    var qualityAdjustment = 0;
-    for (let day = 1; day < 13; day++) {
-        describe(`Day ${day}`, () => {
-            before(() => {
-                expectedName = items[0].name;
-                expectedSellin = items[0].sellIn;
-                expectedQuality = items[0].quality;
-                gildedRose.updateQuality();
-                switch (expectedSellin) {
-                    case 11:
-                        qualityAdjustment = 1;
-                        break;
-                    case 10:
-                    case 9:
-                    case 8:
-                    case 7:
-                    case 6:
-                        qualityAdjustment = 2
-                        break;
-                    case 5:
-                    case 4:
-                    case 3:
-                    case 2:
-                    case 1:
-                        qualityAdjustment = 3;
-                        break;
-                    default:
-                        qualityAdjustment = 99999;
-                        break;
-                }
-            });
-
-            describe('', () => {
-                console.log('QA ', qualityAdjustment);
-                it('should adjust by ' + (qualityAdjustment == 99999 ? 0 : qualityAdjustment), () => {
-                    items[0].name.should.equal(expectedName);
-                    items[0].sellIn.should.equal(expectedSellin - 1);
-                    items[0].quality.should.equal(expectedQuality + (qualityAdjustment == 99999 ? -expectedQuality : qualityAdjustment));
-                });
-            });
+    
+    describe('Day 1', ()=>{
+        before(() => {
+            expectedName = items[0].name;
+            expectedSellin = items[0].sellIn;
+            expectedQuality = items[0].quality;
+            gildedRose.updateQuality();
         });
-    }
+
+        it(('Quality should adjust by 1 when sellin > 10'), () => {
+            var qualityAdjustment = 1;
+            items[0].name.should.equal(expectedName);
+            items[0].sellIn.should.equal(expectedSellin - 1);
+            items[0].quality.should.equal(expectedQuality + (qualityAdjustment == 0 ? -expectedQuality : qualityAdjustment));
+        });
+    });
+    describe('Day 2 - 6', () => {
+        before(() => {
+            expectedName = items[0].name;
+            expectedSellin = items[0].sellIn;
+            expectedQuality = items[0].quality;
+            gildedRose.updateQuality();
+        });
+        after(()=>{
+            gildedRose.updateQuality();
+            gildedRose.updateQuality();
+            gildedRose.updateQuality();
+            gildedRose.updateQuality();
+        });
+        it(('Quality should adjust by 2 when sellin <= 10'), () => {
+            var qualityAdjustment = 2;
+            items[0].name.should.equal(expectedName);
+            items[0].sellIn.should.equal(expectedSellin - 1);
+            items[0].quality.should.equal(expectedQuality + (qualityAdjustment == 0 ? -expectedQuality : qualityAdjustment));
+        });
+    });
+
+    describe('Day 7 - 11', () => {
+        before(() => {
+            expectedName = items[0].name;
+            expectedSellin = items[0].sellIn;
+            expectedQuality = items[0].quality;
+            gildedRose.updateQuality();
+        });
+        after(() => {
+            gildedRose.updateQuality();
+            gildedRose.updateQuality();
+            gildedRose.updateQuality();
+            gildedRose.updateQuality();
+        });
+
+        it(('Quality should adjust by 3 when sellin <= 5'), () => {
+            var qualityAdjustment = 3;
+            items[0].name.should.equal(expectedName);
+            items[0].sellIn.should.equal(expectedSellin - 1);
+            items[0].quality.should.equal(expectedQuality + (qualityAdjustment == 0 ? -expectedQuality : qualityAdjustment));
+        });
+    });
+
+    describe('Day > 11', () => {
+        before(() => {
+            expectedName = items[0].name;
+            expectedSellin = items[0].sellIn;
+            expectedQuality = items[0].quality;
+            gildedRose.updateQuality();
+        });
+
+        it(('Quality should adjust to 0 when sellin < 0'), () => {
+            var qualityAdjustment = 0;
+            items[0].name.should.equal(expectedName);
+            items[0].sellIn.should.equal(expectedSellin - 1);
+            items[0].quality.should.equal(expectedQuality + (qualityAdjustment == 0 ? -expectedQuality : qualityAdjustment));
+        });
+    });
 });
